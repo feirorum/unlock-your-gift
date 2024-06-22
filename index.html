@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swish Present</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Välkommen till din Swish-present!</h1>
+    <p>Klicka på knappen nedan för att avslöja din present.</p>
+    <button id="revealButton">Visa Present</button>
+    <div id="present" class="hidden">
+        <p>Skanna QR-koden nedan för att skicka en Swish-förfrågan:</p>
+        <img src="path/to/your/qr-code.png" alt="Swish QR-kod">
+        <p>Eller klicka på länken: <a href="swish://payment?data=%7B%22version%22%3A1%2C%22payee%22%3A%7B%22value%22%3A%22070xxxxxxxxx%22%2C%22editable%22%3Afalse%7D%2C%22amount%22%3A%7B%22value%22%3A123%2C%22editable%22%3Afalse%7D%2C%22message%22%3A%7B%22value%22%3A%22ditt%20meddelande%22%2C%22editable%22%3Atrue%7D%7D">Swish Länk</a></p>
+    </div>
+    <script>
+        document.getElementById('revealButton').addEventListener('click', function() {
+            document.getElementById('present').classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
