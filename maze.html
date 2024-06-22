@@ -10,33 +10,19 @@
             height: 500px;
             border: 1px solid black;
             position: relative;
-            background-color: #e0e0e0;
+            background-color: #ffffff; /* Changed to white background */
         }
-        .key {
-            width: 20px;
-            height: 20px;
-            background-image: url('key.png');
-            background-size: cover;
-            position: absolute;
-        }
-        #chest {
-            width: 40px;
-            height: 40px;
-            background-image: url('chest.png');
-            background-size: cover;
-            position: absolute;
-            display: none;
-        }
-            .pixel-art {
+        .pixel-art {
             image-rendering: pixelated;
         }
-        .player {
+        #player {
             width: 30px;
             height: 40px;
             background-color: #f0c987; /* Skin color */
-            position: relative;
+            position: absolute;
+            transition: all 0.1s;
         }
-        .player::before {
+        #player::before {
             content: '';
             position: absolute;
             top: 0;
@@ -45,7 +31,7 @@
             height: 10px;
             background-color: #f0e68c; /* Blonde hair color */
         }
-        .player::after {
+        #player::after {
             content: '';
             position: absolute;
             top: 10px;
@@ -54,15 +40,55 @@
             height: 10px;
             background-color: #000; /* Eyes */
         }
+        .key {
+            width: 20px;
+            height: 20px;
+            background-color: #ffd700; /* Golden color */
+            position: absolute;
+        }
+        .key::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 2px;
+            width: 16px;
+            height: 4px;
+            background-color: #ffd700; /* Key handle */
+        }
+        .key::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 8px;
+            width: 4px;
+            height: 10px;
+            background-color: #ffd700; /* Key shaft */
+        }
+        #chest {
+            width: 40px;
+            height: 40px;
+            background-color: #8B4513; /* Brown color for chest */
+            position: absolute;
+            display: none;
+        }
+        #chest::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: 30px;
+            height: 30px;
+            background-color: #D2691E; /* Lighter brown for chest detail */
+        }
     </style>
 </head>
 <body>
     <div id="gameArea">
-        <div id="player" class="player"></div>
-        <div id="key1" class="key"></div>
-        <div id="key2" class="key"></div>
-        <div id="key3" class="key"></div>
-        <div id="chest"></div>
+        <div id="player" class="pixel-art"></div>
+        <div id="key1" class="key pixel-art"></div>
+        <div id="key2" class="key pixel-art"></div>
+        <div id="key3" class="key pixel-art"></div>
+        <div id="chest" class="pixel-art"></div>
     </div>
     <div id="question"></div>
     <input type="text" id="answer">
