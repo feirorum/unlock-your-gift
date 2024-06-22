@@ -12,14 +12,6 @@
             position: relative;
             background-color: #e0e0e0;
         }
-        #player {
-            width: 30px;
-            height: 40px;
-            background-image: url('player.png');
-            background-size: cover;
-            position: absolute;
-            transition: all 0.1s;
-        }
         .key {
             width: 20px;
             height: 20px;
@@ -35,11 +27,38 @@
             position: absolute;
             display: none;
         }
+            .pixel-art {
+            image-rendering: pixelated;
+        }
+        .player {
+            width: 30px;
+            height: 40px;
+            background-color: #f0c987; /* Skin color */
+            position: relative;
+        }
+        .player::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 5px;
+            width: 20px;
+            height: 10px;
+            background-color: #f0e68c; /* Blonde hair color */
+        }
+        .player::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 10px;
+            height: 10px;
+            background-color: #000; /* Eyes */
+        }
     </style>
 </head>
 <body>
     <div id="gameArea">
-        <div id="player"></div>
+        <div id="player" class="player"></div>
         <div id="key1" class="key"></div>
         <div id="key2" class="key"></div>
         <div id="key3" class="key"></div>
