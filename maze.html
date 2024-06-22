@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mystery Game</title>
+    <style>
+        #gameArea {
+            width: 500px;
+            height: 500px;
+            border: 1px solid black;
+            position: relative;
+            overflow: hidden;
+        }
+        #player {
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            position: absolute;
+            transition: all 0.1s;
+        }
+        .key {
+            width: 15px;
+            height: 15px;
+            background-color: gold;
+            position: absolute;
+            display: none;
+        }
+        #chest {
+            width: 30px;
+            height: 30px;
+            background-color: brown;
+            position: absolute;
+            display: none;
+        }
+        #fog {
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            position: absolute;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameArea">
+        <div id="player"></div>
+        <div id="key1" class="key"></div>
+        <div id="key2" class="key"></div>
+        <div id="key3" class="key"></div>
+        <div id="chest"></div>
+        <div id="fog"></div>
+    </div>
+    <div id="question"></div>
+    <input type="text" id="answer">
+    <button onclick="checkAnswer()">Svara</button>
+
+    <script>
+        const gameArea = document.getElementById('gameArea');
+        const player = document.getElementById('player');
+        const fog = document.getElementById('fog');
+        const questionElement = document.getElementById('question');
+        const answerInput = document.getElementById('answer');
+        const chest = document.getElementById('chest');
+
+        let playerX = 0;
+        let playerY = 0;
+        let keys = 0;
+        let currentQuestion = 0;
+
+        const questions = [
+            { question: "Vad heter Berg-Piericks hamster?", answer: "snöboll", key: "key1" },
+            { question: "Vilken årskurs ska Dalia börja?", answer: "4", key: "key2" },
+            { question: "Vem gav förslagen på ditt namn?", answer: "Anders", key: "key3" }
+        ];
+
+        function updatePlayerPosition() {
+            player.style.left = playerX + 'px';
+            player.style.top = playerY + 'px';
+            updateFog();
+        }
+
+        function updateFog() {
+            fog.style.clipPath = `circle(100px at ${playerX + 10}px ${playerY + 10}px)`;
+        }
+
+        function movePlayer(e) {
+            const step = 10;
+            switch(e.key) {
+                case 'ArrowUp': playerY = Math.max(0, playerY - step); break;
+                case 'ArrowDown': playerY = Math.min(480, playerY + step); break;
+                case 'ArrowLeft': playerX = Math.max(0, playerX - step); break;
+                case 'ArrowRight': playerX = Math.min(480, playerX + step); break;
+            }
+            updatePlayerPosition();
+            checkCollision();
+        }
+
+        function checkCollision() {
+            questions.forEach((q, index) => {
+                const key = document.getElementById(q.key);
+                if (isColliding(player, key)) {
+                    key.style.display = 'none';
+                    keys++;
+                    showQuestion(index);
+                }
+            });
+
+            if (keys === 3 && isColliding(player, chest)) {
+                alert("Grattis! Du har löst mysteriet. Här är din länk: swish://payment?data=%7B%22version%22%3A1%2C%22payee%22%3A%7B%22value%22%3A%220739748616%22%2C%22editable%22%3Afalse%7D%2C%22amount%22%3A%7B%22value%22%3A1000%2C%22editable%22%3Afalse%7D%2C%22message%22%3A%7B%22value%22%3A%22Be%20Joakim%20von%20Anka%20om%20dina%20arvspengar!%22%2C%22editable%22%3Afalse%7D%7D");
+            }
+        }
+
+        function isColliding(a, b) {
+            const aRect = a.getBoundingClientRect();
+            const bRect = b.getBoundingClientRect();
+            return !(
+                aRect.top + aRect.height < bRect.top ||
+                aRect.top > bRect.top + bRect.height ||
+                aRect.left + aRect.width < bRect.left ||
+                aRect.left > bRect.left + bRect.width
+            );
+        }
+
+        function showQuestion(index) {
+            currentQuestion = index;
+            questionElement.textContent = questions[index].question;
+        }
+
+        function checkAnswer() {
+            if (answerInput.value.toLowerCase() === questions[currentQuestion].answer) {
+                alert("Rätt svar!");
+                answerInput.value = '';
+                questionElement.textContent = '';
+                if (keys === 3) {
+                    chest.style.display = 'block';
+                    chest.style.left = Math.random() * 470 + 'px';
+                    chest.style.top = Math.random() * 470 + 'px';
+                }
+            } else {
+                alert("Fel svar. Försök igen!");
+            }
+        }
+
+        document.addEventListener('keydown', movePlayer);
+
+        // Initialize key positions
+        questions.forEach((q, index) => {
+            const key = document.getElementById(q.key);
+            key.style.left = Math.random() * 485 + 'px';
+            key.style.top = Math.random() * 485 + 'px';
+            key.style.display = 'block';
+        });
+
+        updatePlayerPosition();
+    </script>
+</body>
+</html>
